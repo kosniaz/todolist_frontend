@@ -4,12 +4,14 @@ import TaskList from './TaskList.js';
 import axios from 'axios';
 
 function App() {
+    console.log("Run App");
     const [tasks, setTasks] = useState([]);
 
 
 
  // Fetch tasks from the backend when the component mounts
     useEffect(() => {
+        console.log("Run useEffect");
         axios.get('http://localhost:8000/tasks/')
             .then(response => {
                 setTasks(response.data);  // Assuming the backend returns a list of tasks
@@ -20,7 +22,8 @@ function App() {
     }, []);  // Empty dependency array ensures this effect runs only once, when the component mounts
 
     const addTask = (task) => {
-        axios.post('http://localhost:8000/tasks', task)
+        console.log("Run addTask");
+        axios.post('http://localhost:8000/tasks/', task)
             .then(response => {
                 const newTask = response.data;
                 setTasks([...tasks, newTask]);
@@ -29,27 +32,29 @@ function App() {
                 console.error('There was an error adding the task:', error);
             });
     };
+    const updateTask = (task) => {
+        console.log("Run updateTask with task id = " + task.id);
+        const newtask = {
+            id: task.id,
+            title: task.title,
+            description: task.description,
+            completed: true
+        }
+        axios.put('http://localhost:8000/tasks/'+task.id, newtask)
+            .then(response => {
+                console.log('task with id = ' + task.id + ' updated successfully to db');
+            })
+            .catch(error => {
+                console.error('There was an error adding the task:', error);
+            });
+    };
 
+    
     return (
         <div>
-            <TaskForm addTask={addTask} />
-            <TaskList tasks={tasks} />
+            <TaskForm onSubmitForm={addTask} />
+            <TaskList tasks={tasks} taskUpdateAction={updateTask} keepValues={true} />
         </div>
     );
 };
-//function App() {
-//    const [tasks, setTasks] = useState([]);
-//
-//    useEffect(() => {
-//        axios.get('/api/tasks')
-//            .then(response => setTasks(response.data))
-//            .catch(error => console.error(error));
-//    }, []);
-//
-//    return (
-//        <div>
-//            <TaskList tasks={tasks} />
-//        </div>
-//    );
-//}
 export default App;
