@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-function TaskForm({ taskId, onSubmitForm, defaultTitle = '' , defaultDescription = '' , keepValues = false}) {
+function TaskForm({ taskId,  onSubmitForm, onSubmitLabel, defaultTitle = '' , defaultDescription = '' , keepValues = false}) {
     console.log("Run taskform");
     console.log(defaultTitle);
     
@@ -42,7 +42,7 @@ function TaskForm({ taskId, onSubmitForm, defaultTitle = '' , defaultDescription
                 onChange={(e) => setDescription(e.target.value)}
                 placeholder="Add the task description"
             />
-            <button type="submit">Add Task</button>
+            <button type="submit">{onSubmitLabel}</button>
         </form>
     );
 }

@@ -4,7 +4,7 @@ function TaskList({ tasks, taskUpdateAction, keepValues= false}) {
     return (
         <ul>
             {tasks.map((task, index) => (
-                <li key={index}> <TaskForm taskId={task.id} onSubmitForm={taskUpdateAction} defaultTitle={task.title} defaultDescription={task.description} keepValues={keepValues}/> </li>
+                <li key={index}> <TaskForm taskId={task.id} onSubmitForm={taskUpdateAction} onSubmitLabel="update" defaultTitle={task.title} defaultDescription={task.description} keepValues={keepValues}/> </li>
             ))}
         </ul>
     );
